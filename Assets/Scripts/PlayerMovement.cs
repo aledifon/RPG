@@ -20,6 +20,7 @@ public class PlayerMovement : MonoBehaviour
 
     // Boolean flags
     private bool walking;
+    [SerializeField] private bool isWalkEnabled;
 
     void Awake()
     {   
@@ -32,9 +33,13 @@ public class PlayerMovement : MonoBehaviour
 
     // Update is called once per frame
     void FixedUpdate()
-    {          
+    {
+        InputPlayer();
+        WallDetected();
+
         HeroMovement();
         HeroAnimation();
+        Debug.DrawRay(transform.position, horizontal * Vector2.right * distRaycast, Color.red);
     }
 
     void InputPlayer()
@@ -50,13 +55,15 @@ public class PlayerMovement : MonoBehaviour
             walking = true;
 
             //horizontal -1 0 1
-            InputPlayer();
+            //InputPlayer();
 
-            if (horizontal != 0 && !Physics2D.Raycast(transform.position, horizontal * Vector2.right, distRaycast, layerNotWalkable))
+            //if (horizontal != 0 && !Physics2D.Raycast(transform.position, horizontal * Vector2.right, distRaycast, layerNotWalkable))
+            if (horizontal != 0 && isWalkEnabled)
             {
                 destination = (Vector2)transform.position + (horizontal * Vector2.right); 
             }
-            else if (vertical != 0 && !Physics2D.Raycast(transform.position, vertical * Vector2.up, distRaycast, layerNotWalkable))
+            //else if (vertical != 0 && !Physics2D.Raycast(transform.position, vertical * Vector2.up, distRaycast, layerNotWalkable))
+            else if (vertical != 0 && isWalkEnabled)
             {
                 destination = (Vector2)transform.position + (vertical * Vector2.up); 
             }
@@ -75,5 +82,17 @@ public class PlayerMovement : MonoBehaviour
     {
         animator.SetFloat("VelocityX", horizontal);
         animator.SetFloat("VelocityY", vertical);
+    }
+    private void WallDetected()
+    {
+        if (horizontal !=0 && Physics2D.Raycast(transform.position, horizontal * Vector2.right, distRaycast, layerNotWalkable) ||
+            vertical != 0 && Physics2D.Raycast(transform.position, vertical * Vector2.up, distRaycast, layerNotWalkable))
+        {
+            isWalkEnabled = false;
+        }
+        else
+        {
+            isWalkEnabled = true;
+        }
     }
 }
