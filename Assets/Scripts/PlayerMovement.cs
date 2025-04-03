@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -93,6 +94,13 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             isWalkEnabled = true;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Level 02"))
+        {
+            SceneManager.LoadScene("Level02");
         }
     }
 }

@@ -54,8 +54,9 @@ public class InteractableObject : MonoBehaviour
     private void Action()
     {
         Debug.Log("The chest has been opened");
-        interactable = false;
+        LevelTownManager.Instance.OpenChest();
 
+        interactable = false;
         // Set the new Opened Chest Sprite
         spriteRenderer.sprite = openChestSprite;
 

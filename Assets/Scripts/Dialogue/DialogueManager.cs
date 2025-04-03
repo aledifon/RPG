@@ -6,7 +6,9 @@ using Ink.Runtime;
 
 public class DialogueManager : MonoBehaviour
 {
+    // Static field which contains the single instance of the Singleton
     private static DialogueManager dialogueManager;
+    // Static property used to acces the Singleton
     public static DialogueManager DialgManager
     {
         get 
